@@ -8,7 +8,6 @@ typedef pthread_t th;
 #define MAX_CLIENT 10
 #define MAXIMUM 1000000
 
-
 char buf[LEN];
 int fd[MAXIMUM];
 
@@ -21,25 +20,35 @@ void init(){
 
 }
 
-void printonline(){
+void online(int cli){
 
-	int i=0;
-	printf("Online friends:\n");
+	int i = 0;
+	char temp[LEN];
+	strcpy(buf,"\0");
+	snprintf(buf,LEN,"\nOnline friends: ");
 
 	for(i=0;i<MAXIMUM;i++){
 		if(fd[i]!=-1){
-			printf("\t %d\n",i);
+			snprintf(temp,LEN,"%d ",i);
+				strcat(buf,temp);
 		}
 	}
+	send(cli,buf,sizeof(buf),0);
 
 }
 
+void mineto(int cli){
+
+	strcpy(buf,"\0");
+	snprintf(buf,2,"%d",cli);
+	send(cli,buf,sizeof(buf),0);
+
+}
 
 void *threadreceivesend(void *sock){
 
 	int cli = *((int *)sock);
 	int r = 0,s = 0,i = 0;
-	char temp[LEN];
 
 	while(1){
 
@@ -51,27 +60,12 @@ void *threadreceivesend(void *sock){
 			buf[strlen(buf)-1] = '\0';
 
 			if(strcmp(buf,"online")==0){
-
-				strcpy(buf,"\0");
-				snprintf(buf,LEN,"Online friends:\n");
-
-				for(i=0;i<MAXIMUM;i++){
-					if(fd[i]!=-1){
-						snprintf(temp,LEN,"%d ",i);
-						strcat(buf,temp);
-					}
-				}
-
-				send(cli,buf,sizeof(buf),0);
+				online(cli);
 				continue;
-
 			}
 			
 			if(strcmp(buf,"mineto")==0){
-
-				strcpy(buf,"\0");
-				snprintf(buf,2,"%d",cli);
-				send(cli,buf,sizeof(buf),0);
+				mineto(cli);
 				continue;
 
 			}
@@ -79,22 +73,16 @@ void *threadreceivesend(void *sock){
 			if(fd[(int)(buf[0]-'0')]!=-1){
 
 				s = send((int)(buf[0]-'0'),buf,sizeof(buf),0);
-				
+								
 				if(s<0){
-					strcpy(temp,"\0");
-					snprintf(temp,LEN,"Invalid client. Refresh to check online clients OR Invalid codeword");
-					send((int)(buf[0]-'0'),temp,sizeof(temp),0);
+					send((int)(buf[0]-'0'),"Invalid client. Refresh to check online clients OR Invalid codeword",100,0);
 					fd[(int)(buf[0]-'0')] = -1;
 				}
 
 			}
 
 			else{
-
-				strcpy(temp,"\0");
-				snprintf(temp,LEN,"Invalid client. Refresh to check online clients OR Invalid codeword");
-				send(cli,temp,sizeof(temp),0);
-
+				send(cli,"Invalid client. Refresh to check online clients OR Invalid codeword",100,0);
 			}
 		}
 
