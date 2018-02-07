@@ -11,6 +11,8 @@ typedef pthread_t th;
 char buf[LEN];
 int fd[MAXIMUM];
 
+#include "codeword.c"
+
 
 void init(){
 
@@ -20,30 +22,6 @@ void init(){
 
 }
 
-void online(int cli){
-
-	int i = 0;
-	char temp[LEN];
-	strcpy(buf,"\0");
-	snprintf(buf,LEN,"\nOnline friends: ");
-
-	for(i=0;i<MAXIMUM;i++){
-		if(fd[i]!=-1){
-			snprintf(temp,LEN,"%d ",i);
-				strcat(buf,temp);
-		}
-	}
-	send(cli,buf,sizeof(buf),0);
-
-}
-
-void mineto(int cli){
-
-	strcpy(buf,"\0");
-	snprintf(buf,2,"%d",cli);
-	send(cli,buf,sizeof(buf),0);
-
-}
 
 void *threadreceivesend(void *sock){
 
@@ -73,7 +51,7 @@ void *threadreceivesend(void *sock){
 			if(fd[(int)(buf[0]-'0')]!=-1){
 
 				s = send((int)(buf[0]-'0'),buf,sizeof(buf),0);
-								
+
 				if(s<0){
 					send((int)(buf[0]-'0'),"Invalid client. Refresh to check online clients OR Invalid codeword",100,0);
 					fd[(int)(buf[0]-'0')] = -1;
