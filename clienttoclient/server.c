@@ -74,9 +74,9 @@ void *threadreceivesend(void *sock){
 	}
 }
 
-void *threadconnection(void *sock){
+void threadconnection(int sock1){
 
-	int sock1 = *((int *)sock),i = 0;
+	int i = 0;
 	int cli,l = sizeof(sockaddr_in);
 	th arr[LEN];
 	sockaddr_in client;
@@ -130,9 +130,8 @@ int main(int argc, char const *argv[])
 		exit(-1);
 	}
 
-	pthread_create(&thread1,NULL,threadconnection,&sock1);
 	printf("This is server side\n");
-	pthread_join(thread1,NULL);
+	threadconnection(sock1);
 	close(sock1);
 	return 0;
 }
