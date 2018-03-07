@@ -8,7 +8,7 @@ typedef pthread_t th;
 #define MAX_CLIENT 10
 #define MAXIMUM 1000000
 
-char buf[LEN];
+
 int fd[MAXIMUM];
 
 #include "codeword.c"
@@ -19,7 +19,7 @@ void init(){
 	int i = 0;
 	for(i=0;i<MAXIMUM;i++)
 		fd[i] = -1;
-
+	
 }
 
 
@@ -28,7 +28,11 @@ void *threadreceivesend(void *sock){
 	int cli = *((int *)sock);
 	int r = 0,s = 0,i = 0;
 
+	char buf[LEN];
+
 	while(1){
+
+		strcpy(buf,"\0");
 
 		r = recv(cli,buf,sizeof(buf),0);
 
