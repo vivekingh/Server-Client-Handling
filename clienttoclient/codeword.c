@@ -1,7 +1,7 @@
 void online(int cli){
 
 	int i = 0;
-	char temp[LEN];
+	char temp[LEN],buf[LEN];
 	strcpy(buf,"\0");
 	snprintf(buf,LEN,"\nOnline friends: ");
 
@@ -17,6 +17,7 @@ void online(int cli){
 
 void mineto(int cli){
 
+	char buf[LEN];
 	strcpy(buf,"\0");
 	snprintf(buf,2,"%d",cli);
 	send(cli,buf,sizeof(buf),0);
