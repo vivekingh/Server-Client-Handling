@@ -13,4 +13,4 @@ gcc filename.c
 ```
 
 ## Additional Notes 
-Since, the server is hosted on the same machine as clients hence both server and clients code should be executed on the same machine. If you want to host server on one computer and clients request from other computer you can other computer then change the IP addresses in the code according to the network you are using and connect the server and clients on the same network.
+Since, the server is hosted on the same machine as clients hence both server and clients code should be executed on the same machine. If you want to host server on one computer and clients request from other computer then you will have to change the IP addresses in the code according to the network you are using and connect the server and clients on the same network.
