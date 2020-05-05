@@ -7,7 +7,7 @@
 #include<arpa/inet.h>// constants and structures needed for domain address
 #include<errno.h>
 
-
+//type naming
 typedef struct sockaddr_in sockaddr_in;
 typedef struct sockaddr sockaddr;
 
