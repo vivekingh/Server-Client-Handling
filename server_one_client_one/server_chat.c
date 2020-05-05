@@ -7,9 +7,10 @@
 #include<arpa/inet.h>
 #include<errno.h>
 
+//type rename
 typedef struct sockaddr_in sockaddr_in;
 typedef struct sockaddr sockaddr;
-//
+
 
 int main(){
 	int sock1,cli,len,sent;
